@@ -31,7 +31,7 @@ class GildedRoseTest {
         Item item = app.items[0];
         assertAll(
             assertEquals(props.itemName(), item.name, "name"),
-            assertEquals(props.expectedSellIn(), item.sellIn, "sell in days"),
+            assertEquals(props.expectedSellIn(), item.sellIn, "expiry days"),
             assertEquals(props.expectedQuality(), item.quality, "quality")
         );
 
