@@ -2,6 +2,13 @@ plugins {
     id 'java'
 }
 
+group = 'com.gildedrose'
+version = '0.0.1-SNAPSHOT'
+
+ext {
+    lombokVersion = '1.18.34'
+}
+
 repositories {
     mavenCentral()
 }
@@ -10,18 +17,39 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
-}
 
-group = 'com.gildedrose'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+    annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+    compileOnly("org.projectlombok:lombok:$lombokVersion")
+    testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
+    testCompileOnly("org.projectlombok:lombok:$lombokVersion")
+}
 
 test {
     useJUnitPlatform()
+}
+
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 task texttest(type: JavaExec) {
     main = "com.gildedrose.TexttestFixture"
     classpath = sourceSets.test.runtimeClasspath
     args "30"
+}
+
+// enable preview features
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += '--enable-preview'
+}
+
+tasks.withType(Test).configureEach {
+    jvmArgs += '--enable-preview'
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs += '--enable-preview'
 }
